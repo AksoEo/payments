@@ -1,0 +1,22 @@
+{
+  "name": "akso-payments",
+  "version": "0.1.0",
+  "description": "",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "node .",
+    "start": "NODE_ENV=production node ."
+  },
+  "author": "",
+  "license": "AGPL-3.0",
+  "dependencies": {
+    "@tejo/akso-client": "^0.1.16",
+    "@tejo/akso-script": "^0.2.2",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.2.0",
+    "handlebars": "^4.7.6",
+    "markdown-it": "^12.0.2",
+    "moment": "^2.29.1"
+  }
+}

@@ -1,0 +1,178 @@
+{{#partial "title"}}
+    {{../pageTitle}}
+{{/partial}}
+{{#partial "imports"}}
+    <link rel="stylesheet" href="/dist/index.css" />
+    {{#if ../useStripe}}
+        {{! only load stripe JS if this is a stripe payment }}
+        <script src="https://js.stripe.com/v3/"></script>
+    {{else}}
+        <!-- stripe not required for this page  -->
+    {{/if}}
+    <script src="/dist/index.js"></script>
+{{/partial}}
+{{#partial "body-attr"}}
+    class="style-{{../style}}"
+{{/partial}}
+
+<div class="page-header">
+    <div class="header-title">
+        <button class="header-back" id="page-back-button">
+            <span class="back-label">←</span>
+            <span class="back-arrow"></span>
+        </button>
+        <div class="header-org">
+            <img draggable="false" class="org-icon" src="/assets/icon-{{style}}.svg" alt="{{style}}" />
+        </div>
+    </div>
+    <div class="header-subtitle">
+        <img draggable="false" class="akso-pay-icon" src="/assets/icon-akso-pay-{{style}}.svg" alt="AKSO-Pago" />
+    </div>
+</div>
+
+{{#if options.error}}
+    <div class="page-error">
+        {{options.error}}
+    </div>
+{{/if}}
+{{#if options.message}}
+    <div class="page-message">
+        {{options.message}}
+    </div>
+{{/if}}
+
+<div class="payment-page">
+    <div class="order-details">
+        <h1>{{locale.order.title}}</h1>
+        <ul class="order-items">
+            {{#each intent.purposes}}
+                {{#if (equals this.type "manual")}}
+                    <li class="order-item">
+                        <div class="order-item-details">
+                            <h4 class="item-title">{{this.title}}</h4>
+                            <div class="item-description">
+                                {{#renderMarkdown this.description}}{{/renderMarkdown}}
+                            </div>
+                        </div>
+                        <div class="order-item-price">
+                            {{#renderCurrency ../intent.currency this.amount}}{{/renderCurrency}}
+                        </div>
+                    </li>
+                {{/if}}
+                {{#if (equals this.type "addon")}}
+                    <li class="order-item">
+                        <div class="order-item-details">
+                            <h4 class="item-title">{{this.paymentAddon.name}}</h4>
+                            <div class="item-description">
+                                {{#renderMarkdown this.paymentAddon.description}}{{/renderMarkdown}}
+                            </div>
+                        </div>
+                        <div class="order-item-price">
+                            {{#renderCurrency ../intent.currency this.amount}}{{/renderCurrency}}
+                        </div>
+                    </li>
+                {{/if}}
+                {{#if (equals this.type "trigger")}}
+                    <li class="order-item">
+                        <div class="order-item-details">
+                            <h4 class="item-title">{{this.title}}</h4>
+                            <div class="item-description">
+                                {{#renderMarkdown this.description}}{{/renderMarkdown}}
+                            </div>
+                        </div>
+                        <div class="order-item-price">
+                            {{#renderCurrency ../intent.currency this.amount}}{{/renderCurrency}}
+                        </div>
+                    </li>
+                {{/if}}
+            {{/each}}
+        </ul>
+        <div class="order-total">
+            <span class="order-total-label">
+                {{locale.order.total}}
+            </span>
+            <span class="order-total-price">
+                {{#renderCurrency intent.currency intent.totalAmount}}{{/renderCurrency}}
+            </span>
+        </div>
+    </div>
+
+    {{#if (equals intent.status "pending")}}
+        {{#if (equals intent.paymentMethod.type 'manual')}}
+            <form class="payment-method" method="POST">
+                <h2 class="method-name">{{intent.paymentMethod.name}}</h2>
+                <div class="method-description">
+                    {{#renderMarkdown intent.paymentMethod.description}}{{/renderMarkdown}}
+                </div>
+                {{#if intent.paymentMethod.paymentValidity}}
+                    {{locale.methods.expiresIn}}
+                    {{#renderValidity intent}}{{/renderValidity}}
+                {{/if}}
+                <p>
+                    {{locale.methods.manual.description}}
+                </p>
+                <input class="hidden-input" name="type" value="submit" />
+                <button class="submit-button" type="submit">
+                    <span class="submit-label">{{locale.methods.manual.submit}}</span>
+                </button>
+            </form>
+        {{/if}}
+        {{#if (equals intent.paymentMethod.type 'stripe')}}
+            <div class="payment-method">
+                <h2 class="method-name">{{intent.paymentMethod.name}}</h2>
+                <div class="method-description">
+                    {{#renderMarkdown intent.paymentMethod.description}}{{/renderMarkdown}}
+                </div>
+                {{#if intent.paymentMethod.paymentValidity}}
+                    {{locale.methods.expiresIn}}
+                    {{#renderValidity intent}}{{/renderValidity}}
+                {{/if}}
+                TODO: use method->stripeMethods
+                TODO: everything else here
+                <div class="method-stripe-elements">
+                    <div class="method-contents">
+                        <div class="form-field">
+                            <label>CARD HOLDER</label>
+                            <input />
+                        </div>
+                        <div class="form-field">
+                            <label>CREDIT CARD NUMBER</label>
+                            <input inputmode="numeric" />
+                        </div>
+                        <div class="form-field">
+                            <label>EXPIRATION DATE</label>
+                            <input inputmode="numeric" />
+                        </div>
+                        <div class="form-field">
+                            <label>CVV</label>
+                            <input inputmode="numeric" />
+                        </div>
+                    </div>
+                    <span class="stripe-elements-loading" />
+                    <noscript>
+                        {{locale.methods.stripe.noscript}}
+                    </noscript>
+                </div>
+                <button class="submit-button">
+                    <span class="submit-label">{{locale.methods.stripe.submit}}</span>
+                </button>
+            </div>
+        {{/if}}
+    {{/if}}
+    {{#if (equals intent.status "processing")}}
+        <div class="payment-method is-status">
+            <h2 class="processing-title">{{locale.statuses.processing.title}}</h2>
+            <p>
+                {{locale.statuses.processing.description}}
+            </p>
+        </div>
+    {{/if}}
+    {{#if (equals intent.status "submitted")}}
+        <div class="payment-method is-status">
+            <h2 class="processing-title">{{locale.statuses.submitted.title}}</h2>
+            <p>
+                {{locale.statuses.submitted.description}}
+            </p>
+        </div>
+    {{/if}}
+</div>

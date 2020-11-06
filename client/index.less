@@ -1,0 +1,343 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Helvetica, Ubuntu, sans-serif;
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+
+    --bg: #fff;
+    --fg: #000;
+    --accent: #004c3f;
+    --focus-ring: fade(#004c3f, 50%);
+    --focus-ring-0: fade(#004c3f, 0%);
+    --accent-darken-1: darken(#004c3f, 2%);
+    --accent-darken-2: darken(#004c3f, 5%);
+    --accent-fg: white;
+    --separator: rgba(0, 0, 0, 0.3);
+    --shade: rgba(0, 0, 0, 0.1);
+    --radius: 8px;
+    --easing: cubic-bezier(.2, .3, 0, 1);
+    --error-bg: fade(#f44336, 20%);
+    --error-fg: #f44336;
+    --message-bg: fade(#004c3f, 20%);
+    --message-fg: #004c3f;
+
+    --header-bg: var(--shade);
+    --header-fg: var(--fg);
+}
+
+.error-page {
+    text-align: center;
+    padding: 2em;
+}
+
+.page-header {
+    background: var(--header-bg);
+    color: var(--header-fg);
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .header-title {
+        display: flex;
+        align-items: stretch;
+        float: left;
+
+        .header-back {
+            background: none;
+            border: none;
+            color: inherit;
+            padding: 0;
+            margin: 0;
+            margin-left: 1em;
+            width: 4em;
+            vertical-align: middle;
+            display: inline-block;
+            position: relative;
+
+            .back-label {
+                display: none;
+            }
+
+            .back-arrow {
+                position: absolute;
+                top: 50%;
+                left: 1em;
+                margin-top: -1px;
+                height: 2px;
+                width: 2em;
+                border-radius: 1px;
+                background: currentColor;
+                transition: transform 0.3s var(--easing);
+
+                &::before, &::after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 1em;
+                    height: 2px;
+                    background: currentColor;
+                    transform-origin: 1px 1px;
+                    border-radius: 1px;
+                }
+                &::before {
+                    transform: rotate(-45deg);
+                }
+                &::after {
+                    transform: rotate(45deg);
+                }
+            }
+
+            &:hover {
+                .back-arrow {
+                    transform: translate(-0.3em);
+                }
+            }
+            &:active {
+                opacity: 0.5;
+            }
+
+            @media (max-width: 320px) {
+                display: none;
+            }
+        }
+
+        .header-org {
+            padding: 1em;
+            display: inline-block;
+
+            .org-icon {
+                max-height: 2em;
+            }
+        }
+    }
+
+    .header-subtitle {
+        padding: 1em;
+
+        .akso-pay-icon {
+            max-height: 1.5em;
+
+            @media (max-width: 320px) {
+                max-height: 1em;
+            }
+        }
+    }
+}
+
+.page-error, .page-message {
+    border-radius: var(--radius);
+    border: 1px solid var(--separator);
+    padding: 1em;
+    margin: 1em;
+    animation: page-message-in 0.3s var(--easing);
+
+    @keyframes page-message-in {
+        0% {
+            opacity: 0;
+            transform: translateY(-50%);
+        }
+    }
+}
+.page-error {
+    color: var(--error-fg);
+    background: var(--error-bg);
+}
+.page-message {
+    color: var(--message-fg);
+    background: var(--message-bg);
+}
+
+.payment-page {
+    max-width: 800px;
+    margin: 2em auto;
+    padding: 0 2em;
+    display: flex;
+
+    .order-details {
+        flex: 3;
+
+        .order-items {
+            list-style-type: none;
+            padding: 0;
+
+            .order-item {
+                border-radius: var(--radius);
+                display: flex;
+                background: var(--shade);
+                padding: 1em;
+                margin-bottom: 0.5em;
+
+                .order-item-details {
+                    flex: 1;
+
+                    .item-title {
+                        margin: 0;
+                    }
+                    .item-description {
+                        margin: 0;
+
+                        p:first-child {
+                            margin-top: 0;
+                        }
+                        p:last-child {
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+                .order-item-price {
+                    display: flex;
+                    min-width: 4em;
+                    text-align: right;
+                    justify-content: flex-end;
+                    align-items: center;
+                }
+
+                @media (max-width: 420px) {
+                    display: block;
+                }
+            }
+        }
+
+        .order-total {
+            padding: 0 1em;
+            display: flex;
+
+            .order-total-label {
+                flex: 1;
+            }
+
+            .order-total-price {
+                display: flex;
+                min-width: 4em;
+                text-align: right;
+                justify-content: flex-end;
+                align-items: center;
+            }
+        }
+    }
+    .payment-method {
+        flex: 2;
+        margin-left: 1em;
+        padding-left: 1em;
+        border-left: 1px solid var(--separator);
+
+        .method-description {
+            margin-bottom: 1em;
+        }
+
+        .hidden-input {
+            display: none;
+        }
+
+        .method-contents {
+            .form-field {
+                margin-bottom: 1em;
+
+                label {
+                    display: block;
+                    font-weight: 500;
+                }
+
+                input {
+                    display: block;
+                    width: 100%;
+                    box-sizing: border-box;
+                    font: inherit;
+                    background: none;
+                    color: inherit;
+                    border: 1px solid var(--separator);
+                    border-radius: var(--radius);
+                    padding: 0.5em 1em;
+
+                    &:focus {
+                        outline: none;
+                        box-shadow: 0 0 0 0.25em var(--focus-ring);
+                        animation: input-focus-in 0.3s var(--easing);
+
+                        @keyframes input-focus-in {
+                            0% {
+                                box-shadow: 0 0 0 1em var(--focus-ring-0);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .submit-button {
+            border: none;
+            font: inherit;
+            margin: 0;
+            margin-top: 1em;
+            padding: 0.7em 1em;
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            background: var(--accent);
+            color: var(--accent-fg);
+            border-radius: var(--radius);
+            transition: background 0.3s var(--easing);
+
+            &:hover {
+                background: var(--accent-darken-1);
+            }
+            &:active {
+                background: var(--accent-darken-2);
+                transition: background 0.05s var(--easing);
+            }
+        }
+    }
+
+    @media (max-width: 600px) {
+        display: block;
+
+        .payment-method {
+            margin-left: 0;
+            margin-top: 1em;
+            padding-left: 0;
+            border-left: none;
+            border-top: 1px solid var(--separator);
+        }
+    }
+
+    @media (max-width: 420px) {
+        margin: 1em;
+        padding: 0;
+    }
+}
+
+.style-tejo {
+    --accent: #2aa851;
+    --focus-ring: fade(#2aa851, 50%);
+    --focus-ring-0: fade(#2aa851, 0%);
+    --accent-darken-1: darken(#2aa851, 2%);
+    --accent-darken-2: darken(#2aa851, 5%);
+    --radius: 0px;
+    --message-bg: fade(#2aa851, 20%);
+    --message-fg: #2aa851;
+    --header-bg: var(--accent);
+    --header-fg: var(--accent-fg);
+}
+.style-uea {
+    --bg: #f3f3f3;
+    --fg: #333;
+    --accent: #94c9ff;
+    --accent-fg: #333;
+    --focus-ring: fade(#93c9ff, 70%);
+    --focus-ring-0: fade(#94c9ff, 0%);
+    --accent-darken-1: darken(#94c9ff, 4%);
+    --accent-darken-2: darken(#94c9ff, 8%);
+    --message-bg: fade(#94c9ff, 50%);
+    --message-fg: #333;
+    --header-bg: var(--bg);
+    --header-fg: var(--fg);
+
+    .payment-method {
+        .submit-button {
+            box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.3), inset 0 -1.5px 0 rgba(0, 0, 0, 0.3);
+            font-weight: 600;
+        }
+    }
+}
