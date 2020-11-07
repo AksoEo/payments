@@ -17,7 +17,8 @@ body {
     --radius: 8px;
     --easing: cubic-bezier(.2, .3, 0, 1);
     --error-bg: fade(#f44336, 20%);
-    --error-fg: #f44336;
+    --error: #f44336;
+    --error-fg: var(--error);
     --message-bg: fade(#004c3f, 20%);
     --message-fg: #004c3f;
 
@@ -150,7 +151,7 @@ body {
 }
 
 .payment-page {
-    max-width: 800px;
+    max-width: 900px;
     margin: 2em auto;
     padding: 0 2em;
     display: flex;
@@ -231,13 +232,25 @@ body {
             display: none;
         }
 
+        .stripe-elements-noscript {
+            display: block;
+            font-weight: bold;
+            margin-top: 1em;
+        }
+
+        .stripe-elements-noscript ~ .method-stripe-elements,
+        .stripe-elements-noscript ~ .submit-button {
+            display: none;
+        }
+
         .method-contents {
             .form-field {
-                margin-bottom: 1em;
+                margin: 1em 0;
 
                 label {
                     display: block;
                     font-weight: 500;
+                    margin-bottom: 0.2em;
                 }
 
                 input {
@@ -263,10 +276,48 @@ body {
                         }
                     }
                 }
+
+                .form-input-static {
+                    width: 100%;
+                    padding: 0.3em 1em;
+                    border-left: 1px solid var(--separator);
+                    box-sizing: border-box;
+                }
+
+                .form-field-description {
+                    font-size: 0.8em;
+                    opacity: 0.7;
+                    margin-top: 0.4em;
+                }
+
+                .stripe-card-input {
+                    margin-top: 0.2em;
+                    padding: 0.5em 1em;
+                    border: 1px solid var(--separator);
+                    border-radius: var(--radius);
+
+                    &.StripeElement--focus {
+                        outline: none;
+                        box-shadow: 0 0 0 0.25em var(--focus-ring);
+                        animation: input-focus-in 0.3s var(--easing);
+                    }
+                    &.StripeElement--invalid {
+                        border-color: var(--error);
+                    }
+                }
+                .stripe-card-error {
+                    &:empty {
+                        display: none;
+                    }
+
+                    margin-top: 0.5em;
+                    color: var(--error);
+                }
             }
         }
 
         .submit-button {
+            position: relative;
             border: none;
             font: inherit;
             margin: 0;
@@ -286,6 +337,44 @@ body {
             &:active {
                 background: var(--accent-darken-2);
                 transition: background 0.05s var(--easing);
+            }
+
+            .submit-label {
+                transition: opacity 0.3s var(--easing);
+            }
+
+            .submit-loading {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 1.5em;
+                height: 1.5em;
+                border-radius: 50%;
+                border: 0.2em solid var(--fg);
+                border-bottom-color: transparent;
+                animation: form-submit-loading 1s linear infinite;
+                opacity: 0;
+                transition: opacity 0.3s var(--easing);
+
+                @keyframes form-submit-loading {
+                    0% {
+                        transform: translate(-50%, -50%) rotate(0deg);
+                    }
+                    100% {
+                        transform: translate(-50%, -50%) rotate(360deg);
+                    }
+                }
+            }
+
+            &.is-loading {
+                background: var(--shade);
+
+                .submit-label {
+                    opacity: 0;
+                }
+                .submit-loading {
+                    opacity: 1;
+                }
             }
         }
     }

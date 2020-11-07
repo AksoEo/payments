@@ -3,13 +3,6 @@
 {{/partial}}
 {{#partial "imports"}}
     <link rel="stylesheet" href="/dist/index.css" />
-    {{#if ../useStripe}}
-        {{! only load stripe JS if this is a stripe payment }}
-        <script src="https://js.stripe.com/v3/"></script>
-    {{else}}
-        <!-- stripe not required for this page  -->
-    {{/if}}
-    <script src="/dist/index.js"></script>
 {{/partial}}
 {{#partial "body-attr"}}
     class="style-{{../style}}"
@@ -118,7 +111,7 @@
             </form>
         {{/if}}
         {{#if (equals intent.paymentMethod.type 'stripe')}}
-            <div class="payment-method">
+            <form class="payment-method" id="stripe-form">
                 <h2 class="method-name">{{intent.paymentMethod.name}}</h2>
                 <div class="method-description">
                     {{#renderMarkdown intent.paymentMethod.description}}{{/renderMarkdown}}
@@ -127,36 +120,37 @@
                     {{locale.methods.expiresIn}}
                     {{#renderValidity intent}}{{/renderValidity}}
                 {{/if}}
-                TODO: use method->stripeMethods
-                TODO: everything else here
-                <div class="method-stripe-elements">
+                <noscript class="stripe-elements-noscript">
+                    {{locale.methods.stripe.noscript}}
+                </noscript>
+                <div
+                    class="method-stripe-elements"
+                    id="stripe-elements"
+                    data-stripe-pk="{{ stripePk }}"
+                    data-stripe-cs="{{ intent.stripeClientSecret }}">
                     <div class="method-contents">
                         <div class="form-field">
-                            <label>CARD HOLDER</label>
-                            <input />
+                            <label>{{locale.methods.stripe.customerName}}</label>
+                            <div class="form-input-static">{{intent.customer.name}}</div>
                         </div>
                         <div class="form-field">
-                            <label>CREDIT CARD NUMBER</label>
-                            <input inputmode="numeric" />
+                            <label>{{locale.methods.stripe.customerEmail}}</label>
+                            <div class="form-input-static">{{intent.customer.email}}</div>
+                            <div class="form-field-description">
+                                {{locale.methods.stripe.customerEmailDescription}}
+                            </div>
                         </div>
                         <div class="form-field">
-                            <label>EXPIRATION DATE</label>
-                            <input inputmode="numeric" />
-                        </div>
-                        <div class="form-field">
-                            <label>CVV</label>
-                            <input inputmode="numeric" />
+                            <label>{{locale.methods.stripe.cardNumber}}
+                            <div class="stripe-card-input"></div>
+                            <div class="stripe-card-error"></div>
                         </div>
                     </div>
-                    <span class="stripe-elements-loading" />
-                    <noscript>
-                        {{locale.methods.stripe.noscript}}
-                    </noscript>
                 </div>
                 <button class="submit-button">
                     <span class="submit-label">{{locale.methods.stripe.submit}}</span>
                 </button>
-            </div>
+            </form>
         {{/if}}
     {{/if}}
     {{#if (equals intent.status "processing")}}
@@ -176,3 +170,11 @@
         </div>
     {{/if}}
 </div>
+
+{{#if useStripe}}
+    {{! only load stripe JS if this is a stripe payment }}
+    <script src="https://js.stripe.com/v3/"></script>
+{{else}}
+    <!-- stripe not required for this page  -->
+{{/if}}
+<script src="/dist/index.js"></script>

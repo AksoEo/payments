@@ -35,17 +35,11 @@ const env = readEnv();
 
 const config = {
     port: +env['AKSO_PORT'] || 7246,
-    stripeSk: env['AKSO_STRIPE_SK'],
-    stripePk: env['AKSO_STRIPE_PK'],
     api: env['AKSO_API'] || 'https://api.akso.org',
     apiKey: env['AKSO_API_KEY'],
     apiSecret: env['AKSO_API_SECRET'],
 };
 
-if (!config.stripePk || !config.stripeSk) {
-    console.error('Stripe PK and SK are missing! To set values, use AKSO_STRIPE_PK and AKSO_STRIPE_SK in env.');
-    process.exit(1);
-}
 if (!config.apiKey || !config.apiSecret) {
     console.error('API key and API secret are missing! To set values, use AKSO_API_KEY and AKSO_API_SECRET in env.');
     process.exit(1);
@@ -148,6 +142,7 @@ async function renderIntentPage(intentId, res, options = {}) {
         useStripe: !!intent.stripePaymentIntentId,
         intent,
         options,
+        stripePk: intent.paymentMethod.stripePublishableKey,
     });
 }
 

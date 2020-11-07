@@ -27,6 +27,10 @@ export default {
         },
         stripe: {
             noscript: '[[Please enable Javascript to use this form]]',
+            customerName: '[[Name]]',
+            customerEmail: '[[Email]]',
+            customerEmailDescription: '[[A receipt will be sent to this address.]]',
+            cardNumber: '[[Credit Card Number]]',
             submit: '[[Buy]]',
         },
     },
@@ -39,5 +43,16 @@ export default {
             title: '[[Payment Submitted]]',
             description: '[[You claim to have submitted a payment, but it still has to be verified by an administrator.]]',
         },
+    },
+    stripeErrors: {
+        incomplete_card: '[[Please fill out your card details.]]',
+        invalid_number: '[[Your card number is invalid.]]',
+        incomplete_number: '[[Your card number is incomplete.]]',
+        incomplete_expiry: '[[Your card’s expiration date is incomplete.]]',
+        invalid_expiry_year_past: '[[Your card’s expiration date is in the past.]]',
+        invalid_expiry_year: '[[Your card’s expiration year is invalid.]]',
+        invalid_expiry_month_past: '[[Your card’s expiration date is in the past.]]',
+        incomplete_cvc: '[[Your card’s security code is incomplete.]]',
+        incomplete_zip: '[[Your postal code is incomplete.]]',
     },
 };

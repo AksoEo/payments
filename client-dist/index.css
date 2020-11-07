@@ -16,7 +16,8 @@ body {
   --radius: 8px;
   --easing: cubic-bezier(0.2, 0.3, 0, 1);
   --error-bg: rgba(244, 67, 54, 0.2);
-  --error-fg: #f44336;
+  --error: #f44336;
+  --error-fg: var(--error);
   --message-bg: rgba(0, 76, 63, 0.2);
   --message-fg: #004c3f;
   --header-bg: var(--shade);
@@ -135,7 +136,7 @@ body {
   background: var(--message-bg);
 }
 .payment-page {
-  max-width: 800px;
+  max-width: 900px;
   margin: 2em auto;
   padding: 0 2em;
   display: flex;
@@ -207,12 +208,22 @@ body {
 .payment-page .payment-method .hidden-input {
   display: none;
 }
+.payment-page .payment-method .stripe-elements-noscript {
+  display: block;
+  font-weight: bold;
+  margin-top: 1em;
+}
+.payment-page .payment-method .stripe-elements-noscript ~ .method-stripe-elements,
+.payment-page .payment-method .stripe-elements-noscript ~ .submit-button {
+  display: none;
+}
 .payment-page .payment-method .method-contents .form-field {
-  margin-bottom: 1em;
+  margin: 1em 0;
 }
 .payment-page .payment-method .method-contents .form-field label {
   display: block;
   font-weight: 500;
+  margin-bottom: 0.2em;
 }
 .payment-page .payment-method .method-contents .form-field input {
   display: block;
@@ -235,7 +246,40 @@ body {
     box-shadow: 0 0 0 1em var(--focus-ring-0);
   }
 }
+.payment-page .payment-method .method-contents .form-field .form-input-static {
+  width: 100%;
+  padding: 0.3em 1em;
+  border-left: 1px solid var(--separator);
+  box-sizing: border-box;
+}
+.payment-page .payment-method .method-contents .form-field .form-field-description {
+  font-size: 0.8em;
+  opacity: 0.7;
+  margin-top: 0.4em;
+}
+.payment-page .payment-method .method-contents .form-field .stripe-card-input {
+  margin-top: 0.2em;
+  padding: 0.5em 1em;
+  border: 1px solid var(--separator);
+  border-radius: var(--radius);
+}
+.payment-page .payment-method .method-contents .form-field .stripe-card-input.StripeElement--focus {
+  outline: none;
+  box-shadow: 0 0 0 0.25em var(--focus-ring);
+  animation: input-focus-in 0.3s var(--easing);
+}
+.payment-page .payment-method .method-contents .form-field .stripe-card-input.StripeElement--invalid {
+  border-color: var(--error);
+}
+.payment-page .payment-method .method-contents .form-field .stripe-card-error {
+  margin-top: 0.5em;
+  color: var(--error);
+}
+.payment-page .payment-method .method-contents .form-field .stripe-card-error:empty {
+  display: none;
+}
 .payment-page .payment-method .submit-button {
+  position: relative;
   border: none;
   font: inherit;
   margin: 0;
@@ -255,6 +299,39 @@ body {
 .payment-page .payment-method .submit-button:active {
   background: var(--accent-darken-2);
   transition: background 0.05s var(--easing);
+}
+.payment-page .payment-method .submit-button .submit-label {
+  transition: opacity 0.3s var(--easing);
+}
+.payment-page .payment-method .submit-button .submit-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+  border: 0.2em solid var(--fg);
+  border-bottom-color: transparent;
+  animation: form-submit-loading 1s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s var(--easing);
+}
+@keyframes form-submit-loading {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+.payment-page .payment-method .submit-button.is-loading {
+  background: var(--shade);
+}
+.payment-page .payment-method .submit-button.is-loading .submit-label {
+  opacity: 0;
+}
+.payment-page .payment-method .submit-button.is-loading .submit-loading {
+  opacity: 1;
 }
 @media (max-width: 600px) {
   .payment-page {

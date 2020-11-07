@@ -15,6 +15,7 @@ export async function fetchIntent(intentId) {
         fields: [
             'org',
             'customer.name',
+            'customer.email',
             'currency',
             'purposes',
             'paymentOrgId',
@@ -22,6 +23,7 @@ export async function fetchIntent(intentId) {
             'paymentMethod',
             'status',
             'stripePaymentIntentId',
+            'stripeClientSecret',
             'totalAmount',
             'timeCreated',
         ],
