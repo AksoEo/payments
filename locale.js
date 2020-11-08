@@ -88,6 +88,5 @@ export default {
         // setup_intent_authentication_failure: "We are unable to authenticate your payment method. Please choose a different payment method and try again.",
         // setup_intent_unexpected_state: "A processing error occurred.",
         // unexpected: "An unexpected error occurred.",
->>>>>>> Stashed changes
     },
 };
