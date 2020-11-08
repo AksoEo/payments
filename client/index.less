@@ -17,8 +17,9 @@ body {
     --radius: 8px;
     --easing: cubic-bezier(.2, .3, 0, 1);
     --error-bg: fade(#f44336, 20%);
-    --error: #f44336;
     --error-fg: var(--error);
+    --error: #f44336;
+    --error-over: #fff;
     --message-bg: fade(#004c3f, 20%);
     --message-fg: #004c3f;
 
@@ -44,63 +45,69 @@ body {
         align-items: stretch;
         float: left;
 
-        .header-back {
-            background: none;
-            border: none;
-            color: inherit;
-            padding: 0;
-            margin: 0;
-            margin-left: 1em;
-            width: 4em;
+        .header-back-container {
+            display: inline-flex;
+            justify-content: center;
+            align-items: stretch;
             vertical-align: middle;
-            display: inline-block;
-            position: relative;
 
-            .back-label {
-                display: none;
-            }
+            .header-back {
+                background: none;
+                border: none;
+                color: inherit;
+                padding: 0;
+                margin: 0;
+                margin-left: 1em;
+                width: 4em;
+                display: inline-block;
+                position: relative;
 
-            .back-arrow {
-                position: absolute;
-                top: 50%;
-                left: 1em;
-                margin-top: -1px;
-                height: 2px;
-                width: 2em;
-                border-radius: 1px;
-                background: currentColor;
-                transition: transform 0.3s var(--easing);
-
-                &::before, &::after {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 1em;
-                    height: 2px;
-                    background: currentColor;
-                    transform-origin: 1px 1px;
-                    border-radius: 1px;
+                .back-label {
+                    display: none;
                 }
-                &::before {
-                    transform: rotate(-45deg);
-                }
-                &::after {
-                    transform: rotate(45deg);
-                }
-            }
 
-            &:hover {
                 .back-arrow {
-                    transform: translate(-0.3em);
-                }
-            }
-            &:active {
-                opacity: 0.5;
-            }
+                    position: absolute;
+                    top: 50%;
+                    left: 1em;
+                    margin-top: -1px;
+                    height: 2px;
+                    width: 2em;
+                    border-radius: 1px;
+                    background: currentColor;
+                    transition: transform 0.3s var(--easing);
 
-            @media (max-width: 320px) {
-                display: none;
+                    &::before, &::after {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 1em;
+                        height: 2px;
+                        background: currentColor;
+                        transform-origin: 1px 1px;
+                        border-radius: 1px;
+                    }
+                    &::before {
+                        transform: rotate(-45deg);
+                    }
+                    &::after {
+                        transform: rotate(45deg);
+                    }
+                }
+
+                &:hover {
+                    .back-arrow {
+                        transform: translate(-0.3em);
+                    }
+                }
+                &:active {
+                    opacity: 0.5;
+                }
+
+                @media (max-width: 320px) {
+                    display: none;
+                }
             }
         }
 
@@ -340,6 +347,7 @@ body {
             }
 
             .submit-label {
+                display: inline-block;
                 transition: opacity 0.3s var(--easing);
             }
 
@@ -375,6 +383,155 @@ body {
                 .submit-loading {
                     opacity: 1;
                 }
+            }
+
+            &.is-hidden {
+                background: var(--shade);
+                opacity: 0;
+                transition: opacity 1s var(--easing);
+
+                .submit-label {
+                    opacity: 0;
+                }
+            }
+
+            .submit-error {
+                position: absolute;
+                opacity: 0;
+                pointer-events: none;
+                animation: none;
+            }
+
+            &.is-error {
+                animation: submit-button-error 2s var(--easing);
+
+                @keyframes submit-button-error {
+                    0% {
+                        background: var(--shade);
+                    }
+                    10% {
+                        background: var(--error);
+                    }
+                    70% {
+                        background: var(--error);
+                    }
+                }
+
+                .submit-label {
+                    animation: submit-button-error-label 2s var(--easing);
+                    @keyframes submit-button-error-label {
+                        0% {
+                            opacity: 0;
+                        }
+                        70% {
+                            opacity: 0;
+                            transform: translateX(2em);
+                        }
+                    }
+                }
+
+                .submit-error {
+                    display: block;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%) scale(0);
+                    animation: submit-button-error-error 2s;
+
+                    @keyframes submit-button-error-error {
+                        0% {
+                            opacity: 1;
+                            transform: translate(-50%, -50%) translateX(-1em);
+                            animation-timing-function: cubic-bezier(.24, .14, .45, 1);
+                        }
+                        10% {
+                            transform: translate(-50%, -50%) translateX(0.4em);
+                            animation-timing-function: cubic-bezier(.45, 0, .45, 1);
+                        }
+                        20% {
+                            transform: translate(-50%, -50%) translateX(-0.17em);
+                            animation-timing-function: cubic-bezier(.35, 0, .45, 1);
+                        }
+                        30% {
+                            transform: translate(-50%, -50%) translateX(0.07em);
+                            animation-timing-function: cubic-bezier(.25, 0, .45, 1);
+                        }
+                        40% {
+                            transform: translate(-50%, -50%) translateX(0);
+                        }
+                        70% {
+                            opacity: 1;
+                            transform: translate(-50%, -50%) translateX(0);
+                        }
+                        100% {
+                            opacity: 0;
+                            transform: translate(-50%, -50%) translateX(-1em) scale(0.001);
+                        }
+                    }
+
+                    .submit-error-exclam {
+                        transform-origin: 13px 15px;
+
+                        animation: submit-button-error-exclam 0.3s;
+                        @keyframes submit-button-error-exclam {
+                            0% {
+                                transform: rotate(45deg) scale(0);
+                            }
+                            50% {
+                                transform: rotate(-5deg) scale(1.1);
+                            }
+                        }
+                    }
+                    .submit-error-dot {
+                        transform-origin: 11px 20px;
+
+                        animation: submit-button-error-dot 0.3s;
+                        @keyframes submit-button-error-dot {
+                            0% {
+                                transform: scale(0);
+                            }
+                            50% {
+                                transform: scale(1.1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .form-error-container {
+            background: var(--error-bg);
+            color: var(--error-fg);
+            border-radius: var(--radius);
+            border: 1px solid var(--separator);
+            padding: 1em;
+            margin-top: 0.5em;
+            animation: form-error-container-in 0.5s var(--easing);
+
+            &:empty {
+                animation: none;
+                display: none;
+            }
+
+            @keyframes form-error-container-in {
+                0% {
+                    opacity: 0;
+                }
+            }
+        }
+
+        .payment-success-container {
+            animation: success-container-in 0.5s var(--easing);
+            @keyframes success-container-in {
+                0% { opacity: 0 }
+            }
+
+            .payment-success {
+                background: var(--message-bg);
+                color: var(--message-fg);
+                border-radius: var(--radius);
+                border: 1px solid var(--separator);
+                padding: 1em;
             }
         }
     }

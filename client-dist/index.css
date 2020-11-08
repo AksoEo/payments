@@ -16,8 +16,9 @@ body {
   --radius: 8px;
   --easing: cubic-bezier(0.2, 0.3, 0, 1);
   --error-bg: rgba(244, 67, 54, 0.2);
-  --error: #f44336;
   --error-fg: var(--error);
+  --error: #f44336;
+  --error-over: #fff;
   --message-bg: rgba(0, 76, 63, 0.2);
   --message-fg: #004c3f;
   --header-bg: var(--shade);
@@ -40,7 +41,13 @@ body {
   align-items: stretch;
   float: left;
 }
-.page-header .header-title .header-back {
+.page-header .header-title .header-back-container {
+  display: inline-flex;
+  justify-content: center;
+  align-items: stretch;
+  vertical-align: middle;
+}
+.page-header .header-title .header-back-container .header-back {
   background: none;
   border: none;
   color: inherit;
@@ -48,14 +55,13 @@ body {
   margin: 0;
   margin-left: 1em;
   width: 4em;
-  vertical-align: middle;
   display: inline-block;
   position: relative;
 }
-.page-header .header-title .header-back .back-label {
+.page-header .header-title .header-back-container .header-back .back-label {
   display: none;
 }
-.page-header .header-title .header-back .back-arrow {
+.page-header .header-title .header-back-container .header-back .back-arrow {
   position: absolute;
   top: 50%;
   left: 1em;
@@ -66,8 +72,8 @@ body {
   background: currentColor;
   transition: transform 0.3s var(--easing);
 }
-.page-header .header-title .header-back .back-arrow::before,
-.page-header .header-title .header-back .back-arrow::after {
+.page-header .header-title .header-back-container .header-back .back-arrow::before,
+.page-header .header-title .header-back-container .header-back .back-arrow::after {
   content: '';
   position: absolute;
   top: 0;
@@ -78,20 +84,20 @@ body {
   transform-origin: 1px 1px;
   border-radius: 1px;
 }
-.page-header .header-title .header-back .back-arrow::before {
+.page-header .header-title .header-back-container .header-back .back-arrow::before {
   transform: rotate(-45deg);
 }
-.page-header .header-title .header-back .back-arrow::after {
+.page-header .header-title .header-back-container .header-back .back-arrow::after {
   transform: rotate(45deg);
 }
-.page-header .header-title .header-back:hover .back-arrow {
+.page-header .header-title .header-back-container .header-back:hover .back-arrow {
   transform: translate(-0.3em);
 }
-.page-header .header-title .header-back:active {
+.page-header .header-title .header-back-container .header-back:active {
   opacity: 0.5;
 }
 @media (max-width: 320px) {
-  .page-header .header-title .header-back {
+  .page-header .header-title .header-back-container .header-back {
     display: none;
   }
 }
@@ -301,6 +307,7 @@ body {
   transition: background 0.05s var(--easing);
 }
 .payment-page .payment-method .submit-button .submit-label {
+  display: inline-block;
   transition: opacity 0.3s var(--easing);
 }
 .payment-page .payment-method .submit-button .submit-loading {
@@ -332,6 +339,141 @@ body {
 }
 .payment-page .payment-method .submit-button.is-loading .submit-loading {
   opacity: 1;
+}
+.payment-page .payment-method .submit-button.is-hidden {
+  background: var(--shade);
+  opacity: 0;
+  transition: opacity 1s var(--easing);
+}
+.payment-page .payment-method .submit-button.is-hidden .submit-label {
+  opacity: 0;
+}
+.payment-page .payment-method .submit-button .submit-error {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  animation: none;
+}
+.payment-page .payment-method .submit-button.is-error {
+  animation: submit-button-error 2s var(--easing);
+}
+@keyframes submit-button-error {
+  0% {
+    background: var(--shade);
+  }
+  10% {
+    background: var(--error);
+  }
+  70% {
+    background: var(--error);
+  }
+}
+.payment-page .payment-method .submit-button.is-error .submit-label {
+  animation: submit-button-error-label 2s var(--easing);
+}
+@keyframes submit-button-error-label {
+  0% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 0;
+    transform: translateX(2em);
+  }
+}
+.payment-page .payment-method .submit-button.is-error .submit-error {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  animation: submit-button-error-error 2s;
+}
+@keyframes submit-button-error-error {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateX(-1em);
+    animation-timing-function: cubic-bezier(0.24, 0.14, 0.45, 1);
+  }
+  10% {
+    transform: translate(-50%, -50%) translateX(0.4em);
+    animation-timing-function: cubic-bezier(0.45, 0, 0.45, 1);
+  }
+  20% {
+    transform: translate(-50%, -50%) translateX(-0.17em);
+    animation-timing-function: cubic-bezier(0.35, 0, 0.45, 1);
+  }
+  30% {
+    transform: translate(-50%, -50%) translateX(0.07em);
+    animation-timing-function: cubic-bezier(0.25, 0, 0.45, 1);
+  }
+  40% {
+    transform: translate(-50%, -50%) translateX(0);
+  }
+  70% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) translateX(-1em) scale(0.001);
+  }
+}
+.payment-page .payment-method .submit-button.is-error .submit-error .submit-error-exclam {
+  transform-origin: 13px 15px;
+  animation: submit-button-error-exclam 0.3s;
+}
+@keyframes submit-button-error-exclam {
+  0% {
+    transform: rotate(45deg) scale(0);
+  }
+  50% {
+    transform: rotate(-5deg) scale(1.1);
+  }
+}
+.payment-page .payment-method .submit-button.is-error .submit-error .submit-error-dot {
+  transform-origin: 11px 20px;
+  animation: submit-button-error-dot 0.3s;
+}
+@keyframes submit-button-error-dot {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+.payment-page .payment-method .form-error-container {
+  background: var(--error-bg);
+  color: var(--error-fg);
+  border-radius: var(--radius);
+  border: 1px solid var(--separator);
+  padding: 1em;
+  margin-top: 0.5em;
+  animation: form-error-container-in 0.5s var(--easing);
+}
+.payment-page .payment-method .form-error-container:empty {
+  animation: none;
+  display: none;
+}
+@keyframes form-error-container-in {
+  0% {
+    opacity: 0;
+  }
+}
+.payment-page .payment-method .payment-success-container {
+  animation: success-container-in 0.5s var(--easing);
+}
+@keyframes success-container-in {
+  0% {
+    opacity: 0;
+  }
+}
+.payment-page .payment-method .payment-success-container .payment-success {
+  background: var(--message-bg);
+  color: var(--message-fg);
+  border-radius: var(--radius);
+  border: 1px solid var(--separator);
+  padding: 1em;
 }
 @media (max-width: 600px) {
   .payment-page {

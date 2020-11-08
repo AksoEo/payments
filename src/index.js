@@ -71,6 +71,7 @@ handlebars.registerHelper('equals', (a, b) => {
 });
 handlebars.registerHelper('renderMarkdown', contents => {
     if (!contents) return '';
+    // TODO: handle rules
     return new Markdown().render(contents);
 });
 handlebars.registerHelper('renderCurrency', (currency, amount) => {
@@ -148,6 +149,10 @@ async function renderIntentPage(intentId, res, options = {}) {
 
 app.use(express.urlencoded({ extended: false }));
 
+app.get('/', async (req, res) => {
+    res.redirect(301, 'https://akso.org');
+});
+
 app.get('/i/:intent', async (req, res) => {
     await renderIntentPage(req.params.intent, res);
 });
@@ -155,16 +160,29 @@ app.post('/i/:intent', async (req, res) => {
     const intentId = req.params.intent;
 
     if (typeof req.body !== 'object' || typeof req.body.type !== 'string') return await renderBadRequest(res);
-    if (req.body.type === 'submit') {
+    if (req.body.type === 'view') {
+        return await renderIntentPage(intentId, res, {
+            return: req.body.return,
+        });
+    } else if (req.body.type === 'submit') {
         const error = await markSubmitted(intentId);
         if (error === 'illegal-state') {
-            return await renderIntentPage(intentId, res, { error: locale.messages.submitIllegalState });
+            return await renderIntentPage(intentId, res, {
+                error: locale.messages.submitIllegalState,
+                return: req.body.return,
+            });
         } else if (error) {
             console.error('Failed to submit intent ' + intentId, error);;
-            return await renderIntentPage(intentId, res, { error: locale.messages.internalServerError });
+            return await renderIntentPage(intentId, res, {
+                error: locale.messages.internalServerError,
+                return: req.body.return,
+            });
         }
 
-        return await renderIntentPage(intentId, res, { message: locale.messages.submitSucceeded });
+        return await renderIntentPage(intentId, res, {
+            message: locale.messages.submitSucceeded,
+            return: req.body.return,
+        });
     } else return await renderBadRequest(res);
 });
 

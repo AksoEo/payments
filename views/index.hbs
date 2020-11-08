@@ -10,10 +10,16 @@
 
 <div class="page-header">
     <div class="header-title">
-        <button class="header-back" id="page-back-button">
-            <span class="back-label">←</span>
-            <span class="back-arrow"></span>
-        </button>
+        {{#if options.return}}
+        <a class="header-back-container" href="{{ options.return }}">
+        {{else}}
+        <a class="header-back-container">
+        {{/if}}
+            <button class="header-back" id="page-back-button">
+                <span class="back-label">←</span>
+                <span class="back-arrow"></span>
+            </button>
+        </a>
         <div class="header-org">
             <img draggable="false" class="org-icon" src="/assets/icon-{{style}}.svg" alt="{{style}}" />
         </div>
@@ -105,51 +111,60 @@
                     {{locale.methods.manual.description}}
                 </p>
                 <input class="hidden-input" name="type" value="submit" />
+                <input class="hidden-input" name="return" value="{{ options.return }}" />
                 <button class="submit-button" type="submit">
                     <span class="submit-label">{{locale.methods.manual.submit}}</span>
                 </button>
             </form>
         {{/if}}
         {{#if (equals intent.paymentMethod.type 'stripe')}}
-            <form class="payment-method" id="stripe-form">
-                <h2 class="method-name">{{intent.paymentMethod.name}}</h2>
-                <div class="method-description">
-                    {{#renderMarkdown intent.paymentMethod.description}}{{/renderMarkdown}}
-                </div>
-                {{#if intent.paymentMethod.paymentValidity}}
-                    {{locale.methods.expiresIn}}
-                    {{#renderValidity intent}}{{/renderValidity}}
-                {{/if}}
-                <noscript class="stripe-elements-noscript">
-                    {{locale.methods.stripe.noscript}}
-                </noscript>
-                <div
-                    class="method-stripe-elements"
-                    id="stripe-elements"
-                    data-stripe-pk="{{ stripePk }}"
-                    data-stripe-cs="{{ intent.stripeClientSecret }}">
-                    <div class="method-contents">
-                        <div class="form-field">
-                            <label>{{locale.methods.stripe.customerName}}</label>
-                            <div class="form-input-static">{{intent.customer.name}}</div>
-                        </div>
-                        <div class="form-field">
-                            <label>{{locale.methods.stripe.customerEmail}}</label>
-                            <div class="form-input-static">{{intent.customer.email}}</div>
-                            <div class="form-field-description">
-                                {{locale.methods.stripe.customerEmailDescription}}
+            <form class="payment-method" id="stripe-form" method="POST" data-return="{{ options.return }}">
+                <div class="form-contents">
+                    <h2 class="method-name">{{intent.paymentMethod.name}}</h2>
+                    <div class="method-description">
+                        {{#renderMarkdown intent.paymentMethod.description}}{{/renderMarkdown}}
+                    </div>
+                    {{#if intent.paymentMethod.paymentValidity}}
+                        {{locale.methods.expiresIn}}
+                        {{#renderValidity intent}}{{/renderValidity}}
+                    {{/if}}
+                    <noscript class="stripe-elements-noscript">
+                        {{locale.methods.stripe.noscript}}
+                    </noscript>
+                    <div
+                        class="method-stripe-elements"
+                        id="stripe-elements"
+                        data-stripe-pk="{{ stripePk }}"
+                        data-stripe-cs="{{ intent.stripeClientSecret }}">
+                        <div class="method-contents">
+                            <div class="form-field">
+                                <label>{{locale.methods.stripe.customerName}}</label>
+                                <div class="form-input-static">{{intent.customer.name}}</div>
                             </div>
-                        </div>
-                        <div class="form-field">
-                            <label>{{locale.methods.stripe.cardNumber}}
-                            <div class="stripe-card-input"></div>
-                            <div class="stripe-card-error"></div>
+                            <div class="form-field">
+                                <label>{{locale.methods.stripe.customerEmail}}</label>
+                                <div class="form-input-static">{{intent.customer.email}}</div>
+                                <div class="form-field-description">
+                                    {{locale.methods.stripe.customerEmailDescription}}
+                                </div>
+                            </div>
+                            <div class="form-field">
+                                <label>{{locale.methods.stripe.cardNumber}}
+                                <div class="stripe-card-input"></div>
+                                <div class="stripe-card-error"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <button class="submit-button">
                     <span class="submit-label">{{locale.methods.stripe.submit}}</span>
+                    <div class="submit-loading"></div>
+                    <svg class="submit-error" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                        <path class="submit-error-exclam" d="M10.2942857,4.88742857 C10.4262857,3.11314286 11.9074286,1.71428571 13.7142857,1.71428571 C15.6085714,1.71428571 17.1428571,3.24857143 17.1428571,5.14285714 C17.1428571,6.36171429 16.6902857,7.55314286 16.0937143,9.08228571 C15.4971429,10.6114286 14.5388571,12.4885714 13.548,14.4548571 C13.2634286,15.0205714 12.6805714,15.4285714 12,15.4285714 C11.1205714,15.4285714 10.3954286,14.7668571 10.2977143,13.92 C10.1982857,13.0628571 10.1657143,6.66171429 10.2942857,4.88742857 Z" fill="#FFFFFF" fill-rule="nonzero" />
+                        <circle class="submit-error-dot" fill="#FFFFFF" cx="11" cy="20" r="3" />
+                    </svg>
                 </button>
+                <div class="form-error-container"></div>
             </form>
         {{/if}}
     {{/if}}
