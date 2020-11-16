@@ -154,7 +154,9 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/i/:intent', async (req, res) => {
-    await renderIntentPage(req.params.intent, res);
+    let ret = null;
+    if (typeof req.query.return === 'string') ret = req.query.return;
+    await renderIntentPage(req.params.intent, res, { return: ret });
 });
 app.post('/i/:intent', async (req, res) => {
     const intentId = req.params.intent;
