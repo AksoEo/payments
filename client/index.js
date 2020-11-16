@@ -12,6 +12,7 @@ function initStripe() {
     // stripe has been loaded for this page
 
     const form = document.querySelector('#stripe-form');
+    if (!form) return;
     const container = document.querySelector('#stripe-elements');
     const errorContainer = form.querySelector('.form-error-container');
     if (!container) return;
@@ -44,6 +45,11 @@ function initStripe() {
     const submitButton = form.querySelector('.submit-button');
 
     function showSuccess() {
+        const cancelForm = document.querySelector('#payment-cancel');
+        if (cancelForm) {
+            cancelForm.parentNode.removeChild(cancelForm);
+        }
+
         const formContents = form.querySelector('.form-contents');
         const formHeight = formContents.offsetHeight;
         formContents.innerHTML = '';

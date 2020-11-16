@@ -9,6 +9,8 @@ export default {
         submitIllegalState: 'Tiu ĉi pago nuntempe ne povas esti plenumita. Pardonon.',
         submitInternalServerError: 'Okazis interna eraro. Bonvolu reprovi poste.',
         submitSucceeded: 'Via pago estis markita kiel sendita. Oficisto sciigos vin kiam la pago estas traktita.',
+        cancelIllegalState: 'Tiu ĉi pago nuntempe ne povas esti nuligita. Pardonon.',
+        cancelInternalServerError: 'Okazis interna eraro. Bonvolu reprovi poste.',
     },
     order: {
         pageTitle: {
@@ -35,6 +37,7 @@ export default {
             success: 'Via pago estis sukcese traktita',
             succeededReturnButton: 'Reveni al la retejo',
         },
+        cancel: 'Nuligi pagon',
     },
     statuses: {
         processing: {
@@ -45,6 +48,15 @@ export default {
             title: 'Pago sendita',
             description: 'Oficisto nun baldaŭ traktos vian pagon kaj konfirmos vian mendon. Dankon pro via mendo.',
         },
+    },
+    cancel: {
+        title: 'Nuligi pagon',
+        description: '[[Are you sure you want to cancel this payment?]]',
+        no: '[[Back]]',
+        yes: '[[Cancel payment]]',
+
+        successTitle: '[[Payment canceled]]',
+        successDescription: '[[Your payment was canceled successfully.]]'
     },
     stripeErrors: {
         UNKNOWN: 'Okazis nekonata eraro dum traktado de via pago. Bonvolu reprovi poste',

@@ -8,7 +8,7 @@ import path from 'path';
 import url from 'url';
 import fs from 'fs';
 
-import { initAPI, fetchIntent, markSubmitted } from './intent.js';
+import { initAPI, fetchIntent, markSubmitted, cancelIntent } from './intent.js';
 import locale from '../locale.js';
 
 moment.locale('eo');
@@ -128,7 +128,7 @@ async function renderIntentPage(intentId, res, options = {}) {
         }
     }
 
-    if (intent === null || !ALLOWED_STATUSES.includes(intent.status)) {
+    if (intent === null || (!options.allowAllStatuses && !ALLOWED_STATUSES.includes(intent.status))) {
         return await renderNotFound(res);
     }
 
@@ -176,13 +176,37 @@ app.post('/i/:intent', async (req, res) => {
         } else if (error) {
             console.error('Failed to submit intent ' + intentId, error);;
             return await renderIntentPage(intentId, res, {
-                error: locale.messages.internalServerError,
+                error: locale.messages.submitInternalServerError,
                 return: req.body.return,
             });
         }
 
         return await renderIntentPage(intentId, res, {
             message: locale.messages.submitSucceeded,
+            return: req.body.return,
+        });
+    } else if (req.body.type === 'precancel') {
+        return await renderIntentPage(intentId, res, {
+            cancel: true,
+            return: req.body.return,
+        });
+    } else if (req.body.type === 'cancel') {
+        const error = await cancelIntent(intentId);
+        if (error === 'illegal-state') {
+            return await renderIntentPage(intentId, res, {
+                error: locale.messages.cancelIllegalState,
+                return: req.body.return,
+            });
+        } else if (error) {
+            console.error('Failed to cancel intent ' + intentId, error);
+            return await renderIntentPage(intentId, res, {
+                error: locale.messages.cancelInternalServerError,
+                return: req.body.return,
+            });
+        }
+        return await renderIntentPage(intentId, res, {
+            allowAllStatuses: true, // intent is canceled, but we still want to render it
+            canceled: true,
             return: req.body.return,
         });
     } else return await renderBadRequest(res);

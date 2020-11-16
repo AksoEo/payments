@@ -40,3 +40,12 @@ export async function markSubmitted(intentId) {
         return err;
     }
 }
+
+export async function cancelIntent(intentId) {
+    try {
+        await app.post(`/aksopay/payment_intents/${intentId}/!cancel`);
+    } catch (err) {
+        if (err.statusCode === 409) return 'illegal-state';
+        return err;
+    }
+}

@@ -7,6 +7,7 @@ body {
     --bg: #fff;
     --fg: #000;
     --accent: #004c3f;
+    --button-bg: #ddd;
     --focus-ring: fade(#004c3f, 50%);
     --focus-ring-0: fade(#004c3f, 0%);
     --accent-darken-1: darken(#004c3f, 2%);
@@ -227,313 +228,341 @@ body {
             }
         }
     }
-    .payment-method {
+    .payment-method-container {
         flex: 2;
         margin-left: 1em;
         padding-left: 1em;
         border-left: 1px solid var(--separator);
 
-        .method-description {
-            margin-bottom: 1em;
-        }
+        .payment-method {
+            .method-description {
+                margin-bottom: 1em;
+            }
 
-        .hidden-input {
-            display: none;
-        }
+            .hidden-input {
+                display: none;
+            }
 
-        .stripe-elements-noscript {
-            display: block;
-            font-weight: bold;
-            margin-top: 1em;
-        }
+            .stripe-elements-noscript {
+                display: block;
+                font-weight: bold;
+                margin-top: 1em;
+            }
 
-        .stripe-elements-noscript ~ .method-stripe-elements,
-        .stripe-elements-noscript ~ .submit-button {
-            display: none;
-        }
+            .stripe-elements-noscript ~ .method-stripe-elements,
+            .stripe-elements-noscript ~ .submit-button {
+                display: none;
+            }
 
-        .method-contents {
-            .form-field {
-                margin: 1em 0;
+            .method-contents {
+                .form-field {
+                    margin: 1em 0;
 
-                label {
-                    display: block;
-                    font-weight: 500;
-                    margin-bottom: 0.2em;
-                }
+                    label {
+                        display: block;
+                        font-weight: 500;
+                        margin-bottom: 0.2em;
+                    }
 
-                input {
-                    display: block;
-                    width: 100%;
-                    box-sizing: border-box;
-                    font: inherit;
-                    background: none;
-                    color: inherit;
-                    border: 1px solid var(--separator);
-                    border-radius: var(--radius);
-                    padding: 0.5em 1em;
+                    input {
+                        display: block;
+                        width: 100%;
+                        box-sizing: border-box;
+                        font: inherit;
+                        background: none;
+                        color: inherit;
+                        border: 1px solid var(--separator);
+                        border-radius: var(--radius);
+                        padding: 0.5em 1em;
 
-                    &:focus {
-                        outline: none;
-                        box-shadow: 0 0 0 0.25em var(--focus-ring);
-                        animation: input-focus-in 0.3s var(--easing);
+                        &:focus {
+                            outline: none;
+                            box-shadow: 0 0 0 0.25em var(--focus-ring);
+                            animation: input-focus-in 0.3s var(--easing);
 
-                        @keyframes input-focus-in {
-                            0% {
-                                box-shadow: 0 0 0 1em var(--focus-ring-0);
+                            @keyframes input-focus-in {
+                                0% {
+                                    box-shadow: 0 0 0 1em var(--focus-ring-0);
+                                }
                             }
                         }
                     }
-                }
 
-                .form-input-static {
-                    width: 100%;
-                    padding: 0.3em 1em;
-                    border-left: 1px solid var(--separator);
-                    box-sizing: border-box;
-                }
-
-                .form-field-description {
-                    font-size: 0.8em;
-                    opacity: 0.7;
-                    margin-top: 0.4em;
-                }
-
-                .stripe-card-input {
-                    margin-top: 0.2em;
-                    padding: 0.5em 1em;
-                    border: 1px solid var(--separator);
-                    border-radius: var(--radius);
-
-                    &.StripeElement--focus {
-                        outline: none;
-                        box-shadow: 0 0 0 0.25em var(--focus-ring);
-                        animation: input-focus-in 0.3s var(--easing);
-                    }
-                    &.StripeElement--invalid {
-                        border-color: var(--error);
-                    }
-                }
-                .stripe-card-error {
-                    &:empty {
-                        display: none;
+                    .form-input-static {
+                        width: 100%;
+                        padding: 0.3em 1em;
+                        border-left: 1px solid var(--separator);
+                        box-sizing: border-box;
                     }
 
-                    margin-top: 0.5em;
-                    color: var(--error);
-                }
-            }
-        }
-
-        .submit-button {
-            position: relative;
-            border: none;
-            font: inherit;
-            margin: 0;
-            margin-top: 1em;
-            padding: 0.7em 1em;
-            display: block;
-            width: 100%;
-            box-sizing: border-box;
-            background: var(--accent);
-            color: var(--accent-fg);
-            border-radius: var(--radius);
-            transition: background 0.3s var(--easing);
-
-            &:hover {
-                background: var(--accent-darken-1);
-            }
-            &:active {
-                background: var(--accent-darken-2);
-                transition: background 0.05s var(--easing);
-            }
-
-            .submit-label {
-                display: inline-block;
-                transition: opacity 0.3s var(--easing);
-            }
-
-            .submit-loading {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                width: 1.5em;
-                height: 1.5em;
-                border-radius: 50%;
-                border: 0.2em solid var(--fg);
-                border-bottom-color: transparent;
-                animation: form-submit-loading 1s linear infinite;
-                opacity: 0;
-                transition: opacity 0.3s var(--easing);
-
-                @keyframes form-submit-loading {
-                    0% {
-                        transform: translate(-50%, -50%) rotate(0deg);
+                    .form-field-description {
+                        font-size: 0.8em;
+                        opacity: 0.7;
+                        margin-top: 0.4em;
                     }
-                    100% {
-                        transform: translate(-50%, -50%) rotate(360deg);
+
+                    .stripe-card-input {
+                        margin-top: 0.2em;
+                        padding: 0.5em 1em;
+                        border: 1px solid var(--separator);
+                        border-radius: var(--radius);
+
+                        &.StripeElement--focus {
+                            outline: none;
+                            box-shadow: 0 0 0 0.25em var(--focus-ring);
+                            animation: input-focus-in 0.3s var(--easing);
+                        }
+                        &.StripeElement--invalid {
+                            border-color: var(--error);
+                        }
+                    }
+                    .stripe-card-error {
+                        &:empty {
+                            display: none;
+                        }
+
+                        margin-top: 0.5em;
+                        color: var(--error);
                     }
                 }
             }
 
-            &.is-loading {
-                background: var(--shade);
+            .submit-button {
+                position: relative;
+                border: none;
+                font: inherit;
+                margin: 0;
+                margin-top: 1em;
+                padding: 0.7em 1em;
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+                background: var(--accent);
+                color: var(--accent-fg);
+                border-radius: var(--radius);
+                transition: background 0.3s var(--easing);
+
+                &:hover {
+                    background: var(--accent-darken-1);
+                }
+                &:active {
+                    background: var(--accent-darken-2);
+                    transition: background 0.05s var(--easing);
+                }
 
                 .submit-label {
-                    opacity: 0;
+                    display: inline-block;
+                    transition: opacity 0.3s var(--easing);
                 }
+
                 .submit-loading {
-                    opacity: 1;
-                }
-            }
-
-            &.is-hidden {
-                background: var(--shade);
-                opacity: 0;
-                transition: opacity 1s var(--easing);
-
-                .submit-label {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    width: 1.5em;
+                    height: 1.5em;
+                    border-radius: 50%;
+                    border: 0.2em solid var(--fg);
+                    border-bottom-color: transparent;
+                    animation: form-submit-loading 1s linear infinite;
                     opacity: 0;
-                }
-            }
+                    transition: opacity 0.3s var(--easing);
 
-            .submit-error {
-                position: absolute;
-                opacity: 0;
-                pointer-events: none;
-                animation: none;
-            }
-
-            &.is-error {
-                animation: submit-button-error 2s var(--easing);
-
-                @keyframes submit-button-error {
-                    0% {
-                        background: var(--shade);
-                    }
-                    10% {
-                        background: var(--error);
-                    }
-                    70% {
-                        background: var(--error);
-                    }
-                }
-
-                .submit-label {
-                    animation: submit-button-error-label 2s var(--easing);
-                    @keyframes submit-button-error-label {
+                    @keyframes form-submit-loading {
                         0% {
-                            opacity: 0;
+                            transform: translate(-50%, -50%) rotate(0deg);
                         }
-                        70% {
-                            opacity: 0;
-                            transform: translateX(2em);
+                        100% {
+                            transform: translate(-50%, -50%) rotate(360deg);
                         }
+                    }
+                }
+
+                &.is-loading {
+                    background: var(--shade);
+
+                    .submit-label {
+                        opacity: 0;
+                    }
+                    .submit-loading {
+                        opacity: 1;
+                    }
+                }
+
+                &.is-hidden {
+                    background: var(--shade);
+                    opacity: 0;
+                    transition: opacity 1s var(--easing);
+
+                    .submit-label {
+                        opacity: 0;
                     }
                 }
 
                 .submit-error {
-                    display: block;
                     position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%) scale(0);
-                    animation: submit-button-error-error 2s;
+                    opacity: 0;
+                    pointer-events: none;
+                    animation: none;
+                }
 
-                    @keyframes submit-button-error-error {
+                &.is-error {
+                    animation: submit-button-error 2s var(--easing);
+
+                    @keyframes submit-button-error {
                         0% {
-                            opacity: 1;
-                            transform: translate(-50%, -50%) translateX(-1em);
-                            animation-timing-function: cubic-bezier(.24, .14, .45, 1);
+                            background: var(--shade);
                         }
                         10% {
-                            transform: translate(-50%, -50%) translateX(0.4em);
-                            animation-timing-function: cubic-bezier(.45, 0, .45, 1);
-                        }
-                        20% {
-                            transform: translate(-50%, -50%) translateX(-0.17em);
-                            animation-timing-function: cubic-bezier(.35, 0, .45, 1);
-                        }
-                        30% {
-                            transform: translate(-50%, -50%) translateX(0.07em);
-                            animation-timing-function: cubic-bezier(.25, 0, .45, 1);
-                        }
-                        40% {
-                            transform: translate(-50%, -50%) translateX(0);
+                            background: var(--error);
                         }
                         70% {
-                            opacity: 1;
-                            transform: translate(-50%, -50%) translateX(0);
-                        }
-                        100% {
-                            opacity: 0;
-                            transform: translate(-50%, -50%) translateX(-1em) scale(0.001);
+                            background: var(--error);
                         }
                     }
 
-                    .submit-error-exclam {
-                        transform-origin: 13px 15px;
-
-                        animation: submit-button-error-exclam 0.3s;
-                        @keyframes submit-button-error-exclam {
+                    .submit-label {
+                        animation: submit-button-error-label 2s var(--easing);
+                        @keyframes submit-button-error-label {
                             0% {
-                                transform: rotate(45deg) scale(0);
+                                opacity: 0;
                             }
-                            50% {
-                                transform: rotate(-5deg) scale(1.1);
+                            70% {
+                                opacity: 0;
+                                transform: translateX(2em);
                             }
                         }
                     }
-                    .submit-error-dot {
-                        transform-origin: 11px 20px;
 
-                        animation: submit-button-error-dot 0.3s;
-                        @keyframes submit-button-error-dot {
+                    .submit-error {
+                        display: block;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%) scale(0);
+                        animation: submit-button-error-error 2s;
+
+                        @keyframes submit-button-error-error {
                             0% {
-                                transform: scale(0);
+                                opacity: 1;
+                                transform: translate(-50%, -50%) translateX(-1em);
+                                animation-timing-function: cubic-bezier(.24, .14, .45, 1);
                             }
-                            50% {
-                                transform: scale(1.1);
+                            10% {
+                                transform: translate(-50%, -50%) translateX(0.4em);
+                                animation-timing-function: cubic-bezier(.45, 0, .45, 1);
+                            }
+                            20% {
+                                transform: translate(-50%, -50%) translateX(-0.17em);
+                                animation-timing-function: cubic-bezier(.35, 0, .45, 1);
+                            }
+                            30% {
+                                transform: translate(-50%, -50%) translateX(0.07em);
+                                animation-timing-function: cubic-bezier(.25, 0, .45, 1);
+                            }
+                            40% {
+                                transform: translate(-50%, -50%) translateX(0);
+                            }
+                            70% {
+                                opacity: 1;
+                                transform: translate(-50%, -50%) translateX(0);
+                            }
+                            100% {
+                                opacity: 0;
+                                transform: translate(-50%, -50%) translateX(-1em) scale(0.001);
+                            }
+                        }
+
+                        .submit-error-exclam {
+                            transform-origin: 13px 15px;
+
+                            animation: submit-button-error-exclam 0.3s;
+                            @keyframes submit-button-error-exclam {
+                                0% {
+                                    transform: rotate(45deg) scale(0);
+                                }
+                                50% {
+                                    transform: rotate(-5deg) scale(1.1);
+                                }
+                            }
+                        }
+                        .submit-error-dot {
+                            transform-origin: 11px 20px;
+
+                            animation: submit-button-error-dot 0.3s;
+                            @keyframes submit-button-error-dot {
+                                0% {
+                                    transform: scale(0);
+                                }
+                                50% {
+                                    transform: scale(1.1);
+                                }
                             }
                         }
                     }
                 }
             }
-        }
 
-        .form-error-container {
-            background: var(--error-bg);
-            color: var(--error-fg);
-            border-radius: var(--radius);
-            border: 1px solid var(--separator);
-            padding: 1em;
-            margin-top: 0.5em;
-            animation: form-error-container-in 0.5s var(--easing);
-
-            &:empty {
-                animation: none;
-                display: none;
-            }
-
-            @keyframes form-error-container-in {
-                0% {
-                    opacity: 0;
-                }
-            }
-        }
-
-        .payment-success-container {
-            animation: success-container-in 0.5s var(--easing);
-            @keyframes success-container-in {
-                0% { opacity: 0 }
-            }
-
-            .payment-success {
-                background: var(--message-bg);
-                color: var(--message-fg);
+            .form-error-container {
+                background: var(--error-bg);
+                color: var(--error-fg);
                 border-radius: var(--radius);
                 border: 1px solid var(--separator);
                 padding: 1em;
+                margin-top: 0.5em;
+                animation: form-error-container-in 0.5s var(--easing);
+
+                &:empty {
+                    animation: none;
+                    display: none;
+                }
+
+                @keyframes form-error-container-in {
+                    0% {
+                        opacity: 0;
+                    }
+                }
+            }
+
+            .payment-success-container {
+                animation: success-container-in 0.5s var(--easing);
+                @keyframes success-container-in {
+                    0% { opacity: 0 }
+                }
+
+                .payment-success {
+                    background: var(--message-bg);
+                    color: var(--message-fg);
+                    border-radius: var(--radius);
+                    border: 1px solid var(--separator);
+                    padding: 1em;
+                }
+            }
+        }
+
+        .payment-cancel {
+            margin-top: 1em;
+            font-size: small;
+            text-align: right;
+
+            .hidden-input {
+                display: none;
+            }
+            .cancel-button {
+                background: none;
+                margin: 0;
+                padding: 0;
+                border: none;
+                text-align: center;
+                font: inherit;
+                color: inherit;
+                text-decoration: underline;
+                opacity: 0.5;
+                cursor: pointer;
+
+                &:hover {
+                    opacity: 1;
+                }
             }
         }
     }
@@ -541,7 +570,7 @@ body {
     @media (max-width: 600px) {
         display: block;
 
-        .payment-method {
+        .payment-method-container {
             margin-left: 0;
             margin-top: 1em;
             padding-left: 0;
@@ -553,6 +582,42 @@ body {
     @media (max-width: 420px) {
         margin: 1em;
         padding: 0;
+    }
+}
+
+.payment-cancellation-page, .payment-canceled-page {
+    max-width: 900px;
+    margin: 2em auto;
+    padding: 0 2em;
+
+    .cancel-actions {
+        display: flex;
+        justify-content: space-between;
+
+        @media (max-width: 420px) {
+            display: block;
+        }
+
+        .cancel-action {
+            margin-top: 0.5em;
+            padding: 0;
+
+            .hidden-input {
+                display: none;
+            }
+
+            .action-button {
+                margin: 0;
+                padding: 0;
+                border: none;
+                font: inherit;
+                background: var(--button-bg);
+                padding: 0.5em 1em;
+                border-radius: var(--radius);
+                color: inherit;
+                cursor: pointer;
+            }
+        }
     }
 }
 
