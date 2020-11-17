@@ -8,7 +8,7 @@ import path from 'path';
 import url from 'url';
 import fs from 'fs';
 
-import { initAPI, fetchIntent, markSubmitted, cancelIntent } from './intent.js';
+import { initAPI, fetchIntent, markSubmitted, cancelIntent, setCustomerNotes } from './intent.js';
 import locale from '../locale.js';
 
 moment.locale('eo');
@@ -185,6 +185,21 @@ app.post('/i/:intent', async (req, res) => {
             message: locale.messages.submitSucceeded,
             return: req.body.return,
         });
+    } else if (req.body.type === 'customer-notes') {
+        const error = await setCustomerNotes(intentId, req.body.notes);
+
+        if (error) {
+            console.error('Failed to set customer notes for ' + intentId, error);
+            return await renderIntentPage(intentId, res, {
+                error: locale.messages.setNotesFailed,
+                return: req.body.return,
+            });
+        } else {
+            return await renderIntentPage(intentId, res, {
+                message: locale.messages.setNotesSucceeded,
+                return: req.body.return,
+            });
+        }
     } else if (req.body.type === 'precancel') {
         return await renderIntentPage(intentId, res, {
             cancel: true,

@@ -11,6 +11,8 @@ export default {
         submitSucceeded: 'Via pago estis markita kiel sendita. Oficisto sciigos vin kiam la pago estas traktita.',
         cancelIllegalState: 'Tiu ĉi pago nuntempe ne povas esti nuligita. Pardonon.',
         cancelInternalServerError: 'Okazis interna eraro. Bonvolu reprovi poste.',
+        setNotesSucceeded: '[[Successfully updated notes.]]',
+        setNotesFailed: '[[Failed to update notes, maybe try again later.]]',
     },
     order: {
         pageTitle: {
@@ -20,6 +22,10 @@ export default {
         },
         title: 'Via mendo',
         total: 'Sume',
+
+        customerNotes: '[[Notes]]',
+        customerNotesPlaceholder: '[[Enter any notes you would like an admin to see here or something?]]',
+        updateCustomerNotes: '[[Update]]',
     },
     methods: {
         expiresIn: 'Via mendo eksvalidiĝos',

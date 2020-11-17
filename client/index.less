@@ -227,6 +227,45 @@ body {
                 align-items: center;
             }
         }
+
+        .order-notes {
+            margin-top: 2em;
+            font-size: small;
+
+            h4 {
+                margin-bottom: 0.4em;
+            }
+
+            .hidden-input {
+                display: none;
+            }
+            textarea {
+                margin: 0;
+                padding: 0.5em 1em;
+                font: inherit;
+                color: inherit;
+                border: none;
+                border-radius: var(--radius);
+                background: var(--shade);
+                width: 100%;
+                box-sizing: border-box;
+                resize: vertical;
+                min-height: 6em;
+            }
+
+            .notes-submit-container {
+                text-align: right;
+            }
+
+            .notes-submit {
+                background: var(--shade);
+                margin: 0;
+                padding: 0.5em 1em;
+                border: none;
+                color: inherit;
+                font: inherit;
+            }
+        }
     }
     .payment-method-container {
         flex: 2;

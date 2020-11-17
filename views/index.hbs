@@ -126,6 +126,21 @@
                 {{#renderCurrency intent.currency intent.totalAmount}}{{/renderCurrency}}
             </span>
         </div>
+
+        <form class="order-notes" method="POST">
+            <h4>{{locale.order.customerNotes}}</h4>
+            <input class="hidden-input" name="type" value="customer-notes" />
+            <input class="hidden-input" name="return" value="{{options.return}}" />
+            <textarea
+                name="notes"
+                maxLength="5000"
+                placeholder="{{locale.order.customerNotesPlaceholder}}">{{intent.customerNotes}}</textarea>
+            <div class="notes-submit-container">
+                <button type="submit" class="notes-submit">
+                    {{locale.order.updateCustomerNotes}}
+                </button>
+            </div>
+        </form>
     </div>
 
     <div class="payment-method-container">

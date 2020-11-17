@@ -25,6 +25,7 @@ export async function fetchIntent(intentId) {
             'stripePaymentIntentId',
             'stripeClientSecret',
             'totalAmount',
+            'customerNotes',
             'timeCreated',
         ],
     });
@@ -46,6 +47,16 @@ export async function cancelIntent(intentId) {
         await app.post(`/aksopay/payment_intents/${intentId}/!cancel`);
     } catch (err) {
         if (err.statusCode === 409) return 'illegal-state';
+        return err;
+    }
+}
+
+export async function setCustomerNotes(intentId, notes) {
+    try {
+        await app.patch(`/aksopay/payment_intents/${intentId}`, {
+            customerNotes: notes || null,
+        });
+    } catch (err) {
         return err;
     }
 }
