@@ -11,8 +11,8 @@ export default {
         submitSucceeded: 'Via pago estis markita kiel sendita. Oficisto sciigos vin kiam la pago estas traktita.',
         cancelIllegalState: 'Tiu ĉi pago nuntempe ne povas esti nuligita. Pardonon.',
         cancelInternalServerError: 'Okazis interna eraro. Bonvolu reprovi poste.',
-        setNotesSucceeded: '[[Successfully updated notes.]]',
-        setNotesFailed: '[[Failed to update notes, maybe try again later.]]',
+        setNotesSucceeded: 'Ĝisdatigis la notojn de la transakcio',
+        setNotesFailed: 'Okazis eraro dum ĝisdatigo de la notoj. Bonvolu poste reprovi.',
     },
     order: {
         pageTitle: {
@@ -23,9 +23,9 @@ export default {
         title: 'Via mendo',
         total: 'Sume',
 
-        customerNotes: '[[Notes]]',
-        customerNotesPlaceholder: '[[Enter any notes you would like an admin to see here or something?]]',
-        updateCustomerNotes: '[[Update]]',
+        customerNotes: 'Notoj',
+        customerNotesPlaceholder: 'Tie ĉi eblas aldoni notojn pri via pago. Se vi elektis permanan pagmetodon, kiu postulas intervenon de oficisto, tiu legos viajn notojn dum traktado de via mendo.',
+        updateCustomerNotes: 'Ĝisdatigi',
     },
     methods: {
         expiresIn: 'Via mendo eksvalidiĝos',
@@ -57,12 +57,12 @@ export default {
     },
     cancel: {
         title: 'Nuligi pagon',
-        description: '[[Are you sure you want to cancel this payment?]]',
-        no: '[[Back]]',
-        yes: '[[Cancel payment]]',
+        description: 'Ĉu vi certas, ke vi volas nuligi la transakcion?',
+        no: 'Reen',
+        yes: 'Nuligi',
 
-        successTitle: '[[Payment canceled]]',
-        successDescription: '[[Your payment was canceled successfully.]]'
+        successTitle: 'La transakcio estis nuligita',
+        successDescription: '' // no description needed
     },
     stripeErrors: {
         UNKNOWN: 'Okazis nekonata eraro dum traktado de via pago. Bonvolu reprovi poste',
@@ -74,7 +74,7 @@ export default {
         invalid_expiry_year_past: 'Via pagkarto jam eksvalidiĝis',
         invalid_expiry_year: 'La jaro de la eksvalidiĝo de via pagkarto estas nevalida',
         invalid_expiry_month_past: 'Via pagkarto jam eksvalidiĝis',
-        invalid_expiry_month: '[[Your card’s expiration date is invalid.]]',
+        invalid_expiry_month: 'Via pagkarto jam eksvalidiĝis',
         incomplete_cvc: 'La sekurkodo de via pagkarto estas nekompleta',
         incomplete_zip: 'Via poŝtkodo estas nekompleta',
 
