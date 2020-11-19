@@ -39,6 +39,7 @@ export default {
             customerEmail: 'Via retpoŝtadreso',
             customerEmailDescription: 'Ni sendos kvitancon al tiu ĉi adreso.',
             cardNumber: 'Numero de pagkarto',
+            processing: '[[Processing...]]',
             submit: 'Pagi',
             success: 'Via pago estis sukcese traktita',
             succeededReturnButton: 'Reveni al la retejo',

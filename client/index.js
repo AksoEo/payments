@@ -6,6 +6,9 @@ document.querySelector('.header-back-container').addEventListener('click', (e) =
     window.history.back();
 });
 
+// time to wait before showing the return button because the API might not have updated yet
+const PROCESSING_TIMEOUT = 3000;
+
 function initStripe() {
     if (!('Stripe' in window)) return;
     const Stripe = window.Stripe;
@@ -54,16 +57,6 @@ function initStripe() {
         const formHeight = formContents.offsetHeight;
         formContents.innerHTML = '';
 
-        if (form.dataset.return) {
-            submitButton.textContent = locale.methods.stripe.succeededReturnButton;
-            submitButton.addEventListener('click', e => {
-                e.preventDefault();
-                window.location = form.dataset.return;
-            });
-        } else {
-            submitButton.classList.add('is-hidden');
-        }
-
         const successContainer = document.createElement('div');
         successContainer.className = 'payment-success-container';
         const success = document.createElement('div');
@@ -71,6 +64,36 @@ function initStripe() {
         success.textContent = locale.methods.stripe.success;
         successContainer.appendChild(success);
         formContents.appendChild(successContainer);
+
+        if (form.dataset.return) {
+            submitButton.disabled = true;
+            submitButton.classList.add('is-loading');
+            submitButton.querySelector('.submit-label').textContent = locale.methods.stripe.succeededReturnButton;
+            success.textContent = locale.methods.stripe.processing;
+
+            setTimeout(() => {
+                submitButton.classList.remove('is-loading');
+                submitButton.disabled = false;
+                success.textContent = locale.methods.stripe.success;
+
+                submitButton.addEventListener('click', e => {
+                    e.preventDefault();
+                    let loc = form.dataset.return;
+                    try {
+                        // try to add ?payment_success_return=true
+                        loc = new URL(loc);
+                        if (loc.search) loc.search += '&payment_success_return=true';
+                        else loc.search = '?payment_success_return=true';
+                        loc = loc.toString();
+                    } catch (e) {}
+                    window.location = loc;
+                });
+            }, PROCESSING_TIMEOUT);
+        } else {
+            submitButton.classList.add('is-hidden');
+            submitButton.disabled = false;
+            submitButton.classList.remove('is-loading');
+        }
 
         const newHeight = successContainer.offsetHeight;
         successContainer.style.height = formHeight + 'px';
@@ -83,6 +106,7 @@ function initStripe() {
             }, 500);
         }, 16);
     }
+    window._DEBUG_showSuccess = showSuccess;
 
     form.addEventListener('submit', e => {
         e.preventDefault();
@@ -101,6 +125,8 @@ function initStripe() {
                 const errorMessage = locale.stripeErrors[result.error.code] || result.error.message;
                 errorContainer.textContent = errorMessage;
                 submitButton.classList.add('is-error');
+                submitButton.classList.remove('is-loading');
+                submitButton.disabled = false;
             } else if (result.paymentIntent.status === 'succeeded') {
                 showSuccess();
             }
@@ -108,7 +134,6 @@ function initStripe() {
             console.error('Unknown error submitting payment', error);
             errorContainer.textContent = locale.stripeErrors.UNKNOWN;
             submitButton.classList.add('is-error');
-        }).then(() => {
             submitButton.disabled = false;
             submitButton.classList.remove('is-loading');
         });

@@ -15,8 +15,6 @@ moment.locale('eo');
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 
-// TODO: POST param for redirecting back or sth
-
 // reads process.env and any .env file
 function readEnv() {
     let contents = {};
