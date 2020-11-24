@@ -227,6 +227,7 @@ app.post('/i/:intent', async (req, res) => {
 
 app.use('/dist', express.static('client-dist'));
 app.use('/assets', express.static('assets'));
+app.use('/favicon.ico', express.static('assets/favicon.ico'));
 
 // 404 page
 app.use(async (req, res) => {
