@@ -69,8 +69,8 @@ handlebars.registerHelper('equals', (a, b) => {
 });
 handlebars.registerHelper('renderMarkdown', contents => {
     if (!contents) return '';
-    // TODO: handle rules
-    return new Markdown().render(contents);
+    const RULES = ['emphasis', 'strikethrough', 'link', 'list', 'table'];
+    return new Markdown('zero').enable(RULES).render(contents);
 });
 handlebars.registerHelper('renderCurrency', (currency, amount) => {
     return stdlib.currency_fmt.apply(null, [currency, amount]);

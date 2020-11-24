@@ -6,6 +6,16 @@ document.querySelector('.header-back-container').addEventListener('click', (e) =
     window.history.back();
 });
 
+{
+    // FIXME: this should be done server-side
+    const anchors = document.querySelectorAll('.item-description a');
+    for (let i = 0; i < anchors.length; i++) {
+        const anchor = anchors[i];
+        anchor.target = '_blank';
+        anchor.rel = 'nofollow noreferrer';
+    }
+}
+
 // time to wait before showing the return button because the API might not have updated yet
 const PROCESSING_TIMEOUT = 3000;
 
