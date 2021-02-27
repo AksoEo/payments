@@ -17,7 +17,7 @@ document.querySelector('.header-back-container').addEventListener('click', (e) =
 }
 
 // time to wait before showing the return button because the API might not have updated yet
-const PROCESSING_TIMEOUT = 3000;
+const PROCESSING_TIMEOUT = 7000;
 
 function initStripe() {
     if (!('Stripe' in window)) return;
