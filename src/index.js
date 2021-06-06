@@ -226,9 +226,9 @@ app.post('/i/:intent', async (req, res) => {
     } else return await renderBadRequest(res);
 });
 
-app.use('/dist', express.static('client-dist'));
-app.use('/assets', express.static('assets'));
-app.use('/favicon.ico', express.static('assets/favicon.ico'));
+app.use('/dist', express.static(path.join(__dirname, '..', 'client-dist')));
+app.use('/assets', express.static(path.join(__dirname, '..', 'assets')));
+app.use('/favicon.ico', express.static(path.join(__dirname, '..', 'assets/favicon.ico')));
 
 // 404 page
 app.use(async (req, res) => {
