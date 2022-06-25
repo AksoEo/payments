@@ -33,7 +33,7 @@ const env = readEnv();
 
 const config = {
     port: +env['AKSO_PORT'] || 7246,
-    api: env['AKSO_API'] || 'https://api.akso.org',
+    api: env['AKSO_API'] || 'https://api.akso.org/v1/',
     apiKey: env['AKSO_API_KEY'],
     apiSecret: env['AKSO_API_SECRET'],
 };
