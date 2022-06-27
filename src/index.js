@@ -2,6 +2,7 @@ import handlebars from 'handlebars';
 import expressHbs from 'express-handlebars';
 import { stdlib } from '@tejo/akso-script';
 import express from 'express';
+import helmet from 'helmet';
 import Markdown from 'markdown-it';
 import moment from 'moment';
 import path from 'path';
@@ -87,6 +88,7 @@ handlebars.registerHelper('renderValidity', (intent) => {
 });
 
 const app = express();
+app.use(helmet());
 app.engine('hbs', expressHbs({ extname: '.hbs' }));
 app.set('views', path.join(__dirname, '..', 'views'));
 app.set('view engine', 'hbs');
