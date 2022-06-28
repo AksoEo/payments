@@ -9,3 +9,7 @@ These permissions must be granted to the payments API client for this applicatio
     - to let customers mark their payment as submitted
 - `pay.payment_intents.cancel.*`
     - to let customers cancel their intent
+- `pay.payment_intents.sensitive_data.*`
+    - to read the stripe client secret
+- `ratelimit.disable`
+    - so the payments page doesn't get rate limited
