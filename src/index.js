@@ -91,6 +91,8 @@ const app = express();
 app.use(helmet({
     // added in nginx
     contentSecurityPolicy: false,
+    // breaks stripe
+    crossOriginEmbedderPolicy: false,
 }));
 app.engine('hbs', expressHbs({ extname: '.hbs' }));
 app.set('views', path.join(__dirname, '..', 'views'));
