@@ -88,7 +88,10 @@ handlebars.registerHelper('renderValidity', (intent) => {
 });
 
 const app = express();
-app.use(helmet());
+app.use(helmet({
+    // added in nginx
+    contentSecurityPolicy: false,
+}));
 app.engine('hbs', expressHbs({ extname: '.hbs' }));
 app.set('views', path.join(__dirname, '..', 'views'));
 app.set('view engine', 'hbs');
