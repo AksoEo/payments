@@ -78,6 +78,9 @@
 <div class="payment-page">
     <div class="order-details">
         <h1>{{locale.order.title}}</h1>
+        <div class="order-ref-id">
+            {{locale.order.refId}}: <code class="ref-id-code">{{intentId}}</code>
+        </div>
         <ul class="order-items">
             {{#each intent.purposes}}
                 {{#if (equals this.type "manual")}}

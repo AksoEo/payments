@@ -21,6 +21,7 @@ export default {
             uea: 'Via mendo ĉe UEA',
         },
         title: 'Via mendo',
+        refId: '[[Order Reference ID]]',
         total: 'Sume',
 
         customerNotes: 'Notoj',

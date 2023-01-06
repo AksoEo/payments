@@ -148,6 +148,7 @@ async function renderIntentPage(intentId, res, options = {}) {
         style,
         useStripe: !!intent.stripePaymentIntentId,
         intent,
+        intentId,
         options,
         stripePk: intent.paymentMethod.stripePublishableKey,
     });

@@ -1,5 +1,5 @@
 body {
-    font-family: -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Helvetica, Ubuntu, sans-serif;
+    font-family: system-ui, Roboto, "Helvetica Neue", Helvetica, Ubuntu, sans-serif;
     margin: 0;
     background: var(--bg);
     color: var(--fg);
@@ -168,6 +168,18 @@ body {
 
     .order-details {
         flex: 3;
+
+        .order-ref-id {
+            margin-bottom: 0.5em;
+            font-size: smaller;
+
+            .ref-id-code {
+                font-family: Menlo, Inconsolata, Roboto Mono, monospace;
+                background: var(--shade);
+                border-radius: 0.2em;
+                padding: 0.1em 0.2em;
+            }
+        }
 
         .order-items {
             list-style-type: none;
